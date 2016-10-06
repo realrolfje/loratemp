@@ -10,6 +10,9 @@
  * #define RADIO_APPEUI "40B3D17ED00301A6"
  * #define RADIO_APPKEY "F23C56EE13304963B8C2BF6283448298"
  * 
+ * Register your application in the dashboard of TTN at
+ * https://staging.thethingsnetwork.org/applications
+ * 
  */
 #include "radiokeys.h"
 #if !defined(RADIO_APPEUI)
@@ -25,9 +28,7 @@ SoftwareSerial mySerial(10, 11); // RX, TX
 rn2483 myLora(mySerial);
 
 // the setup routine runs once when you press reset:
-void setup_radio() 
-{
-
+void setup_radio()  {
   initialize_radio();
 
 #if defined(REGISTERFIRST)
@@ -61,23 +62,24 @@ void print_radio_hweui() {
 }
 
 void join_TTN() {
+
   //OTAA: initOTAA(String AppEUI, String AppKey);
-  Serial.println("Joining with EUI ");
-  Serial.print(RADIO_APPEUI);
-  Serial.print(" and app key ");
-  Serial.println(RADIO_APPEUI);
+  Serial.println("Joining TTN with:");
+  Serial.print("Dev EUI: "); Serial.println(myLora.hweui());
+  Serial.print("App EUI: "); Serial.println(RADIO_APPEUI);
+  Serial.print("App Key: "); Serial.println(RADIO_APPKEY);
   
   digitalWrite(LED_PIN, HIGH);
   bool join_result = myLora.initOTAA(RADIO_APPEUI, RADIO_APPKEY);
-
+  
   while(!join_result) {
     Serial.println("Join failed. Retry in one minute. Are your keys correct, and do you have TTN coverage?");
 
-    for (int i=0; i<60; i++) {
+    for (int i=0; i<150; i++) {
       digitalWrite(LED_PIN, LOW);
-      delay(500); //delay a minute before retry
+      delay(200); //delay a minute before retry
       digitalWrite(LED_PIN, HIGH);
-      delay(500); //delay a minute before retry
+      delay(200); //delay a minute before retry
     }
     join_result = myLora.init();
   }
