@@ -28,7 +28,7 @@ Connect the RN2483 as follows:
 
 | Arduino pin | RN2483 pin      | Remarks           |
 |-------------|-----------------|-------------------|
-|        3.3V | 23 and 12 - Vdd | direct            |
+|        3.3V | 34 and 12 - Vdd | direct            |
 |          10 |     6 - UART TX | 1k resistor       |
 |          11 |     7 - UART RX | 1k resistor       |
 |          12 |      32 - Reset | 1k resistor       |
