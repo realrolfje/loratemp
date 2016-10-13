@@ -7,7 +7,7 @@ SoftwareSerial rnSerial(10, 11); // RX, TX
 
 void setup(void) {
   Serial.begin(9600);
-  rnSerial.begin(9600);
+  rnSerial.begin(57600);
   autobaud();
 
   Serial.println("Init done. Type your command and end with the characters \r\n");

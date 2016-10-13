@@ -11,7 +11,7 @@ void setup(void) {
   Serial.begin(9600);
   pinMode(LED_PIN, OUTPUT);
 
-  setup_sensors();
+//  setup_sensors();
   setup_radio();
 }
 
