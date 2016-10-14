@@ -1,4 +1,3 @@
-#include <rn2483.h>
 #include <SoftwareSerial.h>
 
 #define RADIO_RESET_PIN 12
@@ -25,15 +24,14 @@
 //#endif
 
 SoftwareSerial loraSerial(10, 11); // RX, TX
-TheThingsNetwork ttn;
+
+TheThingsNetwork ttn(loraSerial, Serial, TTN_FP_EU868);
 
 void setup_radio()  {
   loraSerial.begin(9600);
-  delay(1000);
-  reset_radio();
-
-  ttn.init(loraSerial, Serial);  
-  ttn.reset();
+  ttn.autobaud();
+  ttn.provision(appEui, appKey);
+  ttn.showStatus();
 
 #if defined(REGISTERFIRST)
   Serial.println("You need to generate keys at TTN.");
@@ -44,8 +42,9 @@ void setup_radio()  {
 
   digitalWrite(LED_PIN, HIGH);
   //the device will attempt a join every second till the join is successfull
-  while(!ttn.join(appEui, appKey)){
-      delay(10000);
+  while(!ttn.join(appEui, appKey, 20, 5000)){
+      Serial.println("---- backing off for a minute ---");
+      delay(60000);
   }
   digitalWrite(LED_PIN, LOW);
 
@@ -62,26 +61,15 @@ void reset_radio() {
   delay(500);
   digitalWrite(12, HIGH);
   Serial.println("done.");
-  
-  String response = "";
-  while (response=="")
-  {
-    delay(1000);
-    Serial.print("autobaud...");
-    loraSerial.write((byte)0x00);
-    loraSerial.write(0x55);
-    loraSerial.println();
-    loraSerial.println("sys get ver");
-    response = loraSerial.readStringUntil('\n');
-    Serial.print(response);
-  }
+
+//  ttn.autobaud();
+//  ttn.init()
   Serial.println("..done.");
 }
 
-
 // the loop routine runs over and over again forever:
 void send_to_TTN(String data)  {
-  ttn.sendString(data);
+//  ttn.sendBytes(data, data.length);
   delay(20000);
 }
 
