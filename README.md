@@ -57,10 +57,11 @@ Help, tips and tricks:
 - [Another Gateway Map](http://ha-23.eradus.eu/croft.html)  
 - [Effects of antenna on RSSI](https://www.thethingsnetwork.org/community/tehran/post/effect-of-different-antennas-on-the-rssi#!)
 - Mosquitto [subscribe to "up" messages](https://www.thethingsnetwork.org/docs/current/mqtt/#receive-messages-up):
-  ```
+```
   mosquitto_sub -h staging.thethingsnetwork.org 
                 -p 1883 -u <username> -P <password> 
                 -t '+/devices/+/up' -v
-  ```
-  
+```
+
+Idea for sending temperatures from -10 to 50 degrees celcius with 1 byte (resolution 0,24 degrees, error about 4% max). Convert float temp to byte byte=ROUND((10+temp)\*255/60;0). Convert byte to float temp=ROUND(byte\*60/255-10;2).
 
