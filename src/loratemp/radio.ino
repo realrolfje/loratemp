@@ -31,8 +31,8 @@ void setup_radio()  {
   reset_radio();
   loraSerial.begin(9600);
   ttn.autobaud();
-  ttn.provision(appEui, appKey);
-  ttn.showStatus();
+//  ttn.provision(appEui, appKey);
+//  ttn.showStatus();
 
 #if defined(REGISTERFIRST)
   Serial.println("You need to generate keys at TTN.");
@@ -42,11 +42,16 @@ void setup_radio()  {
 #endif
 
   digitalWrite(LED_PIN, HIGH);
+
+  // personalize with ABP
+  ttn.personalize(devAddr, nwkSKey, appSKey);
+
+  // personalize with OTAA
   //the device will attempt a join every second till the join is successfull
-  while(!ttn.join(appEui, appKey, 20, 5000)){
-      Serial.println("---- backing off for a minute ---");
-      delay(60000);
-  }
+//  while(!ttn.join(appEui, appKey, 20, 5000)){
+//      Serial.println("---- backing off for a minute ---");
+//      delay(60000);
+//  }
   digitalWrite(LED_PIN, LOW);
 
   delay(6000);
@@ -54,6 +59,7 @@ void setup_radio()  {
 
   while(true) {
     send_to_TTN("");
+    delay(1000);
   }
   
 
@@ -74,10 +80,12 @@ int dd = 1;
 
 // the loop routine runs over and over again forever:
 void send_to_TTN(String data)  {
+  digitalWrite(LED_PIN, HIGH);
   byte payload[1];
   payload[0] = dd;
   // Send it off
   ttn.sendBytes(payload, sizeof(payload));
+  digitalWrite(LED_PIN, LOW);
   delay(20000);
   dd++;
 }

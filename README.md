@@ -41,12 +41,14 @@ Notes
 
 Install mosquitto broker: sudo apt-get install mosquitto (not needed because TTN hosts that)
 Install mosquitto clients: sudo apt-get install mosquitto-clients
+More info on MQTT clients and debugging on [Stackoverflow](https://stackoverflow.com/questions/26716279/how-to-test-the-mosquitto-server#26716393)
 
 Links to The Things Network (because their site navigation is, let's say "sub optimal")
 
 - [Your TTN user profile](https://account.thethingsnetwork.org/users/profile)
 - [All your TTN applications](https://staging.thethingsnetwork.org/applications) Register your
   device and monitor the devices and their sent packets.
+- [Forum post about deleting devices](https://www.thethingsnetwork.org/forum/t/how-to-delete-device-from-application/3042) Short answer: Not possible. Long answer: Removing an application *is* posible. If you have a small application and really want to delete devices, simply create a new app.
   
 Help, tips and tricks:
   
@@ -54,5 +56,11 @@ Help, tips and tricks:
 - [TTN Gateway Map](https://www.thethingsnetwork.org/map)
 - [Another Gateway Map](http://ha-23.eradus.eu/croft.html)  
 - [Effects of antenna on RSSI](https://www.thethingsnetwork.org/community/tehran/post/effect-of-different-antennas-on-the-rssi#!)
-- 
+- Mosquitto [subscribe to "up" messages](https://www.thethingsnetwork.org/docs/current/mqtt/#receive-messages-up):
+  ```
+  mosquitto_sub -h staging.thethingsnetwork.org 
+                -p 1883 -u <username> -P <password> 
+                -t '+/devices/+/up' -v
+  ```
+  
 
