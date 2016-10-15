@@ -36,3 +36,23 @@ Connect the RN2483 as follows:
 
 *A note on grounding*: The RN2483 has a lot of Gnd pins, and all of them are electrically connected. For normal power, connecting the Gnd pins on the side of the module to the ground of the Arduino will suffice. However, please take special care that the antenna uses the ground pins next to the antenna outputs. Please see page 10 of the [RN2383 datasheet](documentation/RN2483-Datasheet.pdf) to see how Microchip connects antennas. Do not connect the two antenna outputs to one single antenna.
 
+Notes
+-----
+
+Install mosquitto broker: sudo apt-get install mosquitto (not needed because TTN hosts that)
+Install mosquitto clients: sudo apt-get install mosquitto-clients
+
+Links to The Things Network (because their site navigation is, let's say "sub optimal")
+
+- [Your TTN user profile](https://account.thethingsnetwork.org/users/profile)
+- [All your TTN applications](https://staging.thethingsnetwork.org/applications) Register your
+  device and monitor the devices and their sent packets.
+  
+Help, tips and tricks:
+  
+- [TTN Forum](https://www.thethingsnetwork.org/forum/)
+- [TTN Gateway Map](https://www.thethingsnetwork.org/map)
+- [Another Gateway Map](http://ha-23.eradus.eu/croft.html)  
+- [Effects of antenna on RSSI](https://www.thethingsnetwork.org/community/tehran/post/effect-of-different-antennas-on-the-rssi#!)
+- 
+

@@ -28,6 +28,7 @@ SoftwareSerial loraSerial(10, 11); // RX, TX
 TheThingsNetwork ttn(loraSerial, Serial, TTN_FP_EU868);
 
 void setup_radio()  {
+  reset_radio();
   loraSerial.begin(9600);
   ttn.autobaud();
   ttn.provision(appEui, appKey);
@@ -51,6 +52,11 @@ void setup_radio()  {
   delay(6000);
   ttn.showStatus();
 
+  while(true) {
+    send_to_TTN("");
+  }
+  
+
 }
 
 void reset_radio() {
@@ -60,16 +66,19 @@ void reset_radio() {
   digitalWrite(12, LOW);
   delay(500);
   digitalWrite(12, HIGH);
+  delay(500);
   Serial.println("done.");
-
-//  ttn.autobaud();
-//  ttn.init()
-  Serial.println("..done.");
 }
+
+int dd = 1;
 
 // the loop routine runs over and over again forever:
 void send_to_TTN(String data)  {
-//  ttn.sendBytes(data, data.length);
+  byte payload[1];
+  payload[0] = dd;
+  // Send it off
+  ttn.sendBytes(payload, sizeof(payload));
   delay(20000);
+  dd++;
 }
 
